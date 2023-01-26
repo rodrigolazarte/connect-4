@@ -1,0 +1,7 @@
+.playerContainer {
+    width: 10vw;
+    height: 10vh;
+    background-color: aqua;
+    display: inline-flex;
+    align-self: flex-start;
+}

@@ -1,24 +1,29 @@
-import logo from './logo.svg';
+import { createContext, useState } from 'react';
 import './App.css';
+import Board from './components/board/board.component';
+import PlayerContainer from './components/playerContainers/playerContainer.component';
+
+export const BoardContext = createContext();
+
+const Provider = ({children}) => {
+  const [winner, setWinner] = useState(false);
+  const setWinnerTrue = () => setWinner(true);
+  const setWinnerFalse = () => setWinner(false);
+  
+  return (
+    <BoardContext.Provider value={{winner, setWinnerTrue, setWinnerFalse}}>
+      {children}
+    </BoardContext.Provider>
+  )
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider>
+      <div className="App">
+        <Board />
+      </div>
+    </Provider>
   );
 }
 

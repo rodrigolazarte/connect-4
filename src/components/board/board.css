@@ -1,0 +1,11 @@
+.board {
+    width: 700px;
+    height: 600px;
+    display: grid;
+    order: -1;
+    grid-template: repeat(6, 1fr) / repeat(7, 1fr);
+    background-color: rgb(78, 78, 255);
+    border: 2px solid rgb(0, 0, 107);
+    border-radius: 20px 20px 0px 0px;
+    box-shadow: 5px 5px 5px rgb(144, 144, 144);
+}
