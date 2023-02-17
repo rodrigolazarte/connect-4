@@ -1,17 +1,15 @@
 import './board.css'
 import Cell from '../cell/cell.component';
-import { useContext, useEffect, useReducer, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { BoardContext } from '../../App';
-import PlayerContainer from '../playerContainers/playerContainer.component';
 
 const Board = () => {
     var initialState = {};
-    
-    const {winner, setWinnerTrue, setWinnerFalse} = useContext(BoardContext);
 
-    const [turn, setTurn] = useState('red');
+    const { winner, setWinnerTrue, setWinnerFalse, turn, setTurn } = useContext(BoardContext);
     const [markedCells, setMarkedCells] = useState(initialState)
 
+    //Changes the turn of the player when token is placed
     const changeTurn = () => {
         if (turn === 'red') {
             setTurn('yellow');
@@ -25,6 +23,7 @@ const Board = () => {
         setTurn('red');
     }, [winner])
 
+    //Changes the color of a cell if this isn't occupied yet and if its in a legal position
     const markCellInBoard = (cellId, color) => {
         let baseCellId = cellId + 7
 
@@ -37,11 +36,12 @@ const Board = () => {
             changeTurn()
             return true;
         } else {
-            console.log("No se pudo agregar ficha ahi")
+            console.log("Cannot place token in that position")
             return false;
         }
     }
 
+    //Evaluates the board configuration using the marked cell as reference
     const evaluateBoard = (cellId) => {
         let colorOfEvaluatedCell = markedCells[cellId];
         let winHorizontally = evaluateHorizontally(cellId, colorOfEvaluatedCell);
@@ -49,7 +49,7 @@ const Board = () => {
         let winDiagonallyRight = evaluateDiagonallyToTheRight(cellId, colorOfEvaluatedCell);
         let winDiagonallyLeft = evaluateDiagonallyToTheLeft(cellId, colorOfEvaluatedCell);
 
-        showWinner(colorOfEvaluatedCell, winHorizontally, winVertically, winDiagonallyLeft, winDiagonallyRight);        
+        showWinner(colorOfEvaluatedCell, winHorizontally, winVertically, winDiagonallyLeft, winDiagonallyRight);
     }
 
     const evaluateHorizontally = (cellId, colorOfEvaluatedCell) => {
@@ -60,7 +60,8 @@ const Board = () => {
         if (cellId % 7 !== 0) {
             //Evaluate cells to the right of the marked cell
             while (markedCells[auxCellId] === colorOfEvaluatedCell) {
-                if ((auxCellId - 1) % 7 === 0) {
+                if ((auxCellId) % 7 === 0) {
+                    consecutiveCellsToTheRight += 1;
                     break;
                 }
                 consecutiveCellsToTheRight += 1;
@@ -73,12 +74,16 @@ const Board = () => {
 
         auxCellId = cellId;
 
+        let isCellPutByUser = true; // Indicates that the cell to evaluate is the one that the user put recently.
+
         // Evaluate cells to the left of the marked cell
         while (markedCells[auxCellId] === colorOfEvaluatedCell) {
-            if ((auxCellId - 1) % 7 === 0) {
+            if ((auxCellId) % 7 === 0 && !isCellPutByUser) {
                 break;
             }
+            isCellPutByUser = false;
             consecutiveCellsToTheLeft += 1;
+            console.log("Consecutive cells to the left: " + consecutiveCellsToTheLeft)
             auxCellId = auxCellId - 1;
             if (consecutiveCellsToTheLeft === 3) {
                 return true;
@@ -170,9 +175,9 @@ const Board = () => {
 
         //Evaluates if the cell isn't in the base of the board neither in the right limit of the second row. Also validates if cell isn't in the right
         //side of the board.
-        if(auxCellId < 35 && auxCellId % 7 !== 0) {
-            while(markedCells[auxCellId + 8] === colorOfEvaluatedCell) {
-                if((auxCellId + 8) % 7 === 0){
+        if (auxCellId < 35 && auxCellId % 7 !== 0) {
+            while (markedCells[auxCellId + 8] === colorOfEvaluatedCell) {
+                if ((auxCellId + 8) % 7 === 0) {
                     consecutiveCellsToTheRight += 1;
                     break;
                 } else {
@@ -182,37 +187,35 @@ const Board = () => {
             }
         }
 
-        if((consecutiveCellsToTheLeft + consecutiveCellsToTheRight) >= 3) {
+        if ((consecutiveCellsToTheLeft + consecutiveCellsToTheRight) >= 3) {
             return true;
         } else {
             return false
         }
     }
 
+
     const showWinner = (winnerColor, ...arr) => {
-        if(arr.find(element => element === true)){
+        if (arr.find(element => element === true)) {
             setWinnerTrue();
-            alert(`FELICIDADES! HAS GANADO CON EL COLOR: ${winnerColor}!!`)
+            alert(`Congratulations! Player with ${winnerColor} tokens have won!`)
             setMarkedCells({});
             return true;
         }
     }
 
     return (
-        <div>
-            <PlayerContainer />
-            <div className="board">
-                {[...Array(42)].map((x, i) =>
-                    <Cell
-                        key={i + 1}
-                        id={i + 1}
-                        turn={turn}
-                        evaluateBoard={evaluateBoard}
-                        markCellInBoard={markCellInBoard} />
-                )}
-            </div>
+        <div className="board">
+            {[...Array(42)].map((x, i) =>
+                <Cell
+                    key={i + 1}
+                    id={i + 1}
+                    turn={turn}
+                    evaluateBoard={evaluateBoard}
+                    markCellInBoard={markCellInBoard} />
+            )}
         </div>
-        
+
     )
 }
 
