@@ -211,7 +211,7 @@ const Board = () => {
     const showWinner = (winnerColor, ...arr) => {
         if (arr.find(element => element === true)) {
             setWinnerTrue();
-            alert(`Congratulations! Player with ${winnerColor} tokens have won!`)
+            alert(`Congratulations! Player with ${winnerColor} tokens wins!`)
             setMarkedCells({});
             setYellowTokens(TOKENS_QUANTITY);
             setRedTokens(TOKENS_QUANTITY);
