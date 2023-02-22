@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { BoardContext } from "../../App";
+import { BoardContext } from "../../index";
 import "./turnIndicator.css"
 
 const TurnIndicator = () => {

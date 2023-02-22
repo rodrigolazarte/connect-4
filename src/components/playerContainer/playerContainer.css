@@ -1,7 +1,30 @@
 .playerContainer {
-    width: 10vw;
-    height: 10vh;
-    background-color: aqua;
-    display: inline-flex;
-    align-self: flex-start;
+    width: 15vw;
+    height: 30vh;
+    display: flex;
+    align-self: center;
+    justify-self: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.turnRed {
+    animation: glow-red 1s infinite alternate;
+}
+
+.turnYellow {
+    animation: glow-yellow 1s infinite alternate
+}
+
+@keyframes glow-red {
+    to {
+      box-shadow: 0 0 20px 10px red;
+    }
+}
+
+@keyframes glow-yellow {
+    to {
+      box-shadow: 0 0 20px 10px yellow;
+    }
 }

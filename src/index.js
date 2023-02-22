@@ -3,11 +3,30 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { createContext, useState } from 'react';
+
+
+export const BoardContext = createContext();
+
+const Provider = ({children}) => {
+  const [winner, setWinner] = useState(false);
+  const setWinnerTrue = () => setWinner(true);
+  const setWinnerFalse = () => setWinner(false);
+  const [turn, setTurn] = useState('red')
+  
+  return (
+    <BoardContext.Provider value={{winner, setWinnerTrue, setWinnerFalse, turn, setTurn}}>
+      {children}
+    </BoardContext.Provider>
+  )
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider>
+      <App />
+    </Provider>
   </React.StrictMode>
 );
 

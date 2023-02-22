@@ -1,7 +1,7 @@
 import './board.css'
 import Cell from '../cell/cell.component';
 import { useContext, useEffect, useState } from 'react';
-import { BoardContext } from '../../App';
+import { BoardContext } from '../../index';
 
 const Board = () => {
     var initialState = {};

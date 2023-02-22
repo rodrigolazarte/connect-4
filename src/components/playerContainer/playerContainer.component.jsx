@@ -1,9 +1,11 @@
 import './playerContainer.css'
+import PlayerImage from '../playerImage/playerImage.component';
 
-const PlayerContainer = () => {
+const PlayerContainer = (props) => {
     return (
-        <div className="playerContainer">
-            Contenedor del player 1;
+        <div className={`playerContainer ${props.className}`} >
+            {props.children}
+            <PlayerImage animation={props.animate}/>
         </div>
     )
 }

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { BoardContext } from '../../App';
+import { BoardContext } from '../../index';
 import './cell.css'
 
 const Cell = ({ turn, evaluateBoard, id, markCellInBoard }) => {

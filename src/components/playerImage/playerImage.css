@@ -1,0 +1,28 @@
+.playerImage {
+    width: 100px;
+    height: 100px;
+    border: 1px solid;
+    border-radius: 50%;
+    margin: 10px auto;
+    }
+
+.animateRed {
+    animation: glow-red 1s infinite alternate;
+}
+
+.animateYellow {
+    animation: glow-yellow 1s infinite alternate
+}
+
+@keyframes glow-red {
+    to {
+      box-shadow: 0 0 30px 10px red;
+    }
+}
+
+@keyframes glow-yellow {
+    to {
+      box-shadow: 0 0 30px 10px yellow;
+    }
+}
+
