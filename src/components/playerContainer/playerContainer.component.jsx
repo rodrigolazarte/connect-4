@@ -6,6 +6,7 @@ const PlayerContainer = (props) => {
         <div className={`playerContainer ${props.className}`} >
             {props.children}
             <PlayerImage animation={props.animate}/>
+            <h3>Moves remaining: {props.tokens}</h3>
         </div>
     )
 }

@@ -7,15 +7,18 @@ import { createContext, useState } from 'react';
 
 
 export const BoardContext = createContext();
+export const TOKENS_QUANTITY = 21;
 
 const Provider = ({children}) => {
   const [winner, setWinner] = useState(false);
   const setWinnerTrue = () => setWinner(true);
   const setWinnerFalse = () => setWinner(false);
+  const [yellowTokens, setYellowTokens] = useState(TOKENS_QUANTITY);
+  const [redTokens, setRedTokens] = useState(TOKENS_QUANTITY);
   const [turn, setTurn] = useState('red')
   
   return (
-    <BoardContext.Provider value={{winner, setWinnerTrue, setWinnerFalse, turn, setTurn}}>
+    <BoardContext.Provider value={{winner, setWinnerTrue, setWinnerFalse, turn, setTurn, yellowTokens, setYellowTokens, redTokens, setRedTokens}}>
       {children}
     </BoardContext.Provider>
   )

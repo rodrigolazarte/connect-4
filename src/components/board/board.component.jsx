@@ -1,19 +1,22 @@
 import './board.css'
 import Cell from '../cell/cell.component';
 import { useContext, useEffect, useState } from 'react';
-import { BoardContext } from '../../index';
+import { BoardContext, TOKENS_QUANTITY } from '../../index';
 
 const Board = () => {
     var initialState = {};
 
     const { winner, setWinnerTrue, setWinnerFalse, turn, setTurn } = useContext(BoardContext);
+    const {redTokens, yellowTokens, setRedTokens, setYellowTokens} = useContext(BoardContext);
     const [markedCells, setMarkedCells] = useState(initialState)
 
     //Changes the turn of the player when token is placed
     const changeTurn = () => {
         if (turn === 'red') {
+            setRedTokens(redTokens-1);
             setTurn('yellow');
         } else if (turn === 'yellow') {
+            setYellowTokens(yellowTokens-1);
             setTurn('red');
         }
     }
@@ -22,6 +25,16 @@ const Board = () => {
         setWinnerFalse();
         setTurn('red');
     }, [winner])
+
+    useEffect(() => {
+        if(redTokens === 0 && yellowTokens === 0) {
+            setWinnerTrue();
+            alert('Game is draw!')
+            setMarkedCells({});
+            setYellowTokens(TOKENS_QUANTITY);
+            setRedTokens(TOKENS_QUANTITY);
+        }
+    }, [redTokens, yellowTokens])
 
     //Changes the color of a cell if this isn't occupied yet and if its in a legal position
     const markCellInBoard = (cellId, color) => {
@@ -200,6 +213,8 @@ const Board = () => {
             setWinnerTrue();
             alert(`Congratulations! Player with ${winnerColor} tokens have won!`)
             setMarkedCells({});
+            setYellowTokens(TOKENS_QUANTITY);
+            setRedTokens(TOKENS_QUANTITY);
             return true;
         }
     }
